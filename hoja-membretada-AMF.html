@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>AMF — Hoja Membretada (documento base)</title>
+<style>
+  :root{
+    --bg-dark:   #0D0D0D;
+    --gold:      #C9A96E;
+    --gold-light:#E8D5A3;
+    --paper:     #FDFDFB;
+    --ink:       #1C1C1C;
+    --ink-soft:  #55524A;
+    --on-dark:   #F0F0F0;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    padding:40px;
+    background:#3a3a3a;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* ===== Hoja A4 ===== */
+  .sheet{
+    width:210mm;
+    min-height:297mm;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ===== Cabecera ===== */
+  .header{
+    position:relative;
+    height:210px;
+    background:var(--bg-dark);
+    flex-shrink:0;
+    overflow:hidden;
+  }
+  /* onda dorada única y pronunciada que corta el borde inferior del header */
+  .header::after{
+    content:"";
+    position:absolute;
+    left:-5%; right:-5%; bottom:-1px;
+    height:110px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 55%, var(--gold) 100%);
+    clip-path: path('M0,20 C 260,130 620,-30 1000,60 C 1120,88 1180,55 1300,50 L1300,110 L0,110 Z');
+  }
+  /* segunda onda, más fina, encima de la dorada, en el tono del papel */
+  .header::before{
+    content:"";
+    position:absolute;
+    left:-5%; right:-5%; bottom:-1px;
+    height:55px;
+    background:var(--paper);
+    clip-path: path('M0,4 C 280,66 640,-24 1000,26 C 1120,42 1180,26 1300,22 L1300,55 L0,55 Z');
+    z-index:1;
+  }
+
+  .brand{
+    position:relative;
+    z-index:2;
+    padding:36px 50px 0;
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .brand .logo-badge{
+    width:76px; height:76px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #2a2a2a, #0D0D0D 70%);
+    border:2px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold-light);
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:1px;
+    flex-shrink:0;
+    box-shadow:0 0 0 4px rgba(201,169,110,.15);
+  }
+  .brand .name{
+    color:var(--gold-light);
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .brand .sub{
+    color:var(--on-dark);
+    font-size:11.5px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    opacity:.65;
+    margin:8px 0 0;
+  }
+
+  /* línea-ruta dorada: elemento de firma del diseño, cruza el margen derecho
+     como si fuera el trazo de un itinerario / ruta de traslado */
+  .route-line{
+    position:absolute;
+    top:210px; bottom:170px; right:44px;
+    width:1px;
+    background:linear-gradient(var(--gold-light), var(--gold));
+    opacity:.55;
+    z-index:0;
+  }
+  .route-line::before, .route-line::after{
+    content:"";
+    position:absolute; left:50%; transform:translateX(-50%);
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+  }
+  .route-line::before{ top:-3px; }
+  .route-line::after{ bottom:-3px; }
+
+  /* ===== Cuerpo ===== */
+  .body{
+    flex:1;
+    padding:56px 90px 70px 50px; /* colchón inferior de seguridad frente a la onda del footer */
+    position:relative;
+    z-index:2;
+  }
+  .doc-title{
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .doc-title-line{
+    width:46px; height:2px; background:var(--gold);
+    margin:0 0 26px;
+  }
+  .body p{
+    color:var(--ink);
+    font-size:12.5px;
+    line-height:1.85;
+    text-align:justify;
+    margin:0 0 18px;
+  }
+  .body strong{ color:var(--ink); }
+
+  .place-date{
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--ink);
+  }
+
+  .signature{
+    margin-top:70px;
+    max-width:260px;
+  }
+  .signature .line{
+    border-top:1px solid var(--ink);
+    padding-top:8px;
+  }
+  .signature .who{
+    font-size:12px; font-weight:700; color:var(--ink); margin:0;
+  }
+  .signature .role{
+    font-size:10.5px; color:var(--ink-soft); margin:2px 0 0;
+  }
+
+  /* ===== Pie ===== */
+  .footer{
+    position:relative;
+    height:150px;
+    background:var(--bg-dark);
+    flex-shrink:0;
+    overflow:hidden; /* la onda queda SIEMPRE contenida dentro del footer,
+                         nunca puede pisar el texto del cuerpo */
+  }
+  .footer::before{
+    content:"";
+    position:absolute;
+    left:-5%; right:-5%; top:-1px;
+    height:95px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 55%, var(--gold) 100%);
+    clip-path: path('M0,10 C 260,-30 620,110 1000,20 C 1120,-8 1180,26 1300,32 L1300,0 L0,0 Z');
+  }
+  .footer::after{
+    content:"";
+    position:absolute;
+    left:-5%; right:-5%; top:-1px;
+    height:48px;
+    background:var(--paper);
+    clip-path: path('M0,4 C 280,-24 640,54 1000,4 C 1120,-10 1180,8 1300,12 L1300,0 L0,0 Z');
+    z-index:1;
+  }
+
+  .contact{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 50px 24px;
+  }
+  .contact .legal{
+    color:var(--gold-light);
+    font-size:10px;
+    letter-spacing:1px;
+  }
+  .contact .legal b{ color:var(--on-dark); }
+
+  .contact ul{
+    list-style:none; margin:0; padding:0;
+    display:flex; flex-direction:column; gap:5px;
+  }
+  .contact li{
+    color:var(--on-dark);
+    font-size:10.5px;
+    display:flex; align-items:center; gap:8px;
+    white-space:nowrap;
+  }
+  .contact li .dot{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--gold);
+    flex-shrink:0;
+  }
+
+  /* marca de agua sutil "EJEMPLO" solo para este archivo base */
+  .example-tag{
+    position:fixed; top:16px; left:50%; transform:translateX(-50%);
+    background:#000; color:#E8D5A3; font-family:sans-serif;
+    font-size:11px; letter-spacing:2px; padding:6px 14px; border-radius:4px;
+    z-index:99;
+  }
+
+  @media print{
+    body{ padding:0; background:none; }
+    .sheet{ box-shadow:none; }
+    .example-tag{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="example-tag">DOCUMENTO BASE — TEXTO DE EJEMPLO</div>
+
+  <div class="sheet">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+      <div class="brand">
+        <div class="logo-badge">AM</div>
+        <div>
+          <p class="name">Alfonso Montero</p>
+          <p class="sub">Executive Transportation</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-line"></div>
+
+    <!-- ===== BODY ===== -->
+    <div class="body">
+      <p class="doc-title">Certificación de servicio</p>
+      <div class="doc-title-line"></div>
+
+      <p>
+        Por medio de la presente, <strong>ALFONSO MONTERO EXECUTIVE TRANSPORTATION</strong>,
+        identificada con NIT <strong>79.121.391-1</strong>, certifica que el señor
+        <strong>JUAN CARLOS RESTREPO GÓMEZ</strong>, identificado con cédula de ciudadanía
+        No. 79.888.123, contrató y recibió nuestros servicios de traslado ejecutivo
+        aeropuerto&nbsp;–&nbsp;hotel en la ciudad de Bogotá D.C., durante el periodo
+        comprendido entre el 12 y el 18 de enero de 2026.
+      </p>
+
+      <p>
+        El servicio prestado incluyó transporte terrestre privado tipo ejecutivo,
+        conductor bilingüe y asistencia personalizada en el Aeropuerto Internacional
+        El Dorado, cumpliendo con los estándares de puntualidad, seguridad y
+        confidencialidad que caracterizan a nuestra compañía.
+      </p>
+
+      <p>
+        Se expide la presente certificación a solicitud del interesado, para los
+        fines que este considere pertinentes.
+      </p>
+
+      <p class="place-date">Bogotá D.C., 20 de enero de 2026.</p>
+
+      <div class="signature">
+        <div class="line">
+          <p class="who">Alfonso Montero</p>
+          <p class="role">Representante Legal · AMF Executive Transportation</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+      <div class="contact">
+        <div class="legal">
+          <b>Alfonso Montero</b> Executive Transportation<br>
+          NIT 79.121.391-1
+        </div>
+        <ul>
+          <li><span class="dot"></span> Bogotá – Colombia</li>
+          <li><span class="dot"></span> +57 321 995 6349</li>
+          <li><span class="dot"></span> alfonsomontero@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
