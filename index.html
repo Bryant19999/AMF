@@ -24,6 +24,7 @@
       --paper:   #FDFDFB;
       --ink:     #1C1C1C;
       --ink-soft:#55524A;
+      --line:    #D9D9D9;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -319,10 +320,10 @@
     .form-textarea:focus { border-color: var(--gold); }
     .field-hint { font-size: 10px; color: var(--muted); margin: -2px 0 10px; line-height: 1.5; }
 
-    /* ══════════ MEMBRETE / CERTIFICACIÓN (hoja A4) ══════════ */
+    /* ══════════ MEMBRETE / CERTIFICACIÓN (hoja A4, carta formal blanca) ══════════ */
     #membrete-tpl {
       width: 210mm; min-height: 297mm;
-      background: var(--paper);
+      background: #FFFFFF;
       position: relative; overflow: hidden;
       display: flex; flex-direction: column;
       box-shadow: 0 4px 48px rgba(0,0,0,.9);
@@ -332,86 +333,44 @@
       print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
-    /* Cabecera */
+    /* Cabecera — solo logo, línea gris de separación */
     #membrete-tpl .header {
-      position: relative; height: 210px;
-      background: var(--dark-bg); flex-shrink: 0; overflow: hidden;
+      padding: 40px 50px 24px; border-bottom: 1px solid var(--line); flex-shrink: 0;
     }
-    /* onda dorada única y pronunciada — SVG real (html2canvas NO soporta clip-path) */
-    #membrete-tpl .wave-svg { position: absolute; left: 0; width: 100%; display: block; z-index: 0; object-fit: fill; pointer-events: none; }
-    #membrete-tpl .header .wave-svg { bottom: -1px; height: 110px; }
-    #membrete-tpl .footer .wave-svg { top: 0px; height: 95px; }
-    #membrete-tpl .brand {
-      position: relative; z-index: 2; padding: 36px 50px 0;
-      display: flex; align-items: center; gap: 18px;
-    }
-    #membrete-tpl .brand .logo-badge {
-      width: auto; height: 76px; border-radius: 10%;
-      background: radial-gradient(circle at 35% 30%, #2a2a2a, #0D0D0D 70%);
-      border: 2px solid var(--gold);
+    #membrete-tpl .logo-badge {
+      width: 70px; height: 70px;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; flex-shrink: 0;
-      box-shadow: 0 0 0 4px rgba(201,169,110,.15);
+      overflow: hidden;
     }
-    #membrete-tpl .brand .logo-badge img {
-      width: 100%; height: 100%; object-fit: cover; border-radius: 15%;
-    }
-    #membrete-tpl .brand .name {
-      color: var(--gold3); font-size: 32px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase; margin: 0;
-    }
-    #membrete-tpl .brand .sub {
-      color: var(--white); font-size: 11.5px; letter-spacing: 4px;
-      text-transform: uppercase; opacity: .65; margin: 8px 0 0;
-    }
-    /* Línea-ruta dorada */
-    #membrete-tpl .route-line {
-      position: absolute; top: 210px; bottom: 170px; right: 44px;
-      width: 1px; background: linear-gradient(var(--gold3), var(--gold));
-      opacity: .55; z-index: 0;
-    }
-    #membrete-tpl .route-line::before,
-    #membrete-tpl .route-line::after {
-      content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-      width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
-    }
-    #membrete-tpl .route-line::before { top: -3px; }
-    #membrete-tpl .route-line::after  { bottom: -3px; }
-    /* Cuerpo — colchón inferior de 70px de seguridad frente a la onda del footer */
+    #membrete-tpl .logo-badge img { width: auto; height: 100%; object-fit: cover; }
+    /* Cuerpo — carta formal */
     #membrete-tpl .body {
-      flex: 1; padding: 56px 90px 70px 50px; position: relative; z-index: 2;
+      flex: 1; padding: 48px 90px 40px 50px;
     }
-    #membrete-tpl .doc-title {
-      font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--gold); font-weight: 700; margin: 0 0 4px;
-    }
-    #membrete-tpl .doc-title-line {
-      width: 46px; height: 2px; background: var(--gold); margin: 0 0 26px;
-    }
+    #membrete-tpl .date-line  { color: var(--ink); font-size: 12.5px; margin: 0 0 30px; }
+    #membrete-tpl .recipient  { color: var(--ink); font-size: 12.5px; line-height: 1.6; margin: 0 0 22px; }
+    #membrete-tpl .greeting   { color: var(--ink); font-size: 12.5px; margin: 0 0 18px; }
+    #membrete-tpl .subject    { color: var(--ink); font-size: 12.5px; margin: 0 0 18px; }
+    #membrete-tpl .closing    { color: var(--ink); font-size: 12.5px; margin: 0; }
     #membrete-tpl .body p {
       color: var(--ink); font-size: 12.5px; line-height: 1.85;
       text-align: left; margin: 0 0 18px; white-space: pre-wrap;
     }
-    #membrete-tpl .place-date { margin-top: 8px; font-size: 12.5px; color: var(--ink); }
-    #membrete-tpl .signature  { margin-top: 56px; max-width: 260px; }
-    #membrete-tpl .sig-img-slot { height: 58px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 2px; }
-    #membrete-tpl .sig-img-slot img { max-height: 56px; object-fit: contain; }
+    #membrete-tpl .signature  { margin-top: 70px; max-width: 260px; }
+    #membrete-tpl .sig-img-slot { height: 56px; display: flex; align-items: flex-end; justify-content: center; }
+    #membrete-tpl .sig-img-slot img { max-height: 100%; object-fit: contain; }
     #membrete-tpl .signature .line { border-top: 1px solid var(--ink); padding-top: 8px; }
     #membrete-tpl .signature .who  { font-size: 12px; font-weight: 700; color: var(--ink); margin: 0; }
     #membrete-tpl .signature .role { font-size: 10.5px; color: var(--ink-soft); margin: 2px 0 0; }
-    /* Pie — overflow:hidden mantiene la onda SIEMPRE contenida, nunca pisa el texto */
+    /* Pie — datos de contacto, sin color, línea gris arriba */
     #membrete-tpl .footer {
-      position: relative; height: 150px; background: var(--dark-bg); flex-shrink: 0; overflow: hidden;
+      border-top: 1px solid var(--line); padding: 20px 50px;
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
     }
-    #membrete-tpl .contact {
-      position: relative; z-index: 2; height: 100%;
-      display: flex; align-items: flex-end; justify-content: space-between; padding: 0 50px 24px;
-    }
-    #membrete-tpl .contact .legal { color: var(--gold3); font-size: 10px; letter-spacing: 1px; line-height: 1.6; }
-    #membrete-tpl .contact .legal b { color: var(--white); }
-    #membrete-tpl .contact ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
-    #membrete-tpl .contact li { color: var(--white); font-size: 10.5px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-    #membrete-tpl .contact li .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    #membrete-tpl .footer .legal { color: var(--ink); font-size: 10px; line-height: 1.5; }
+    #membrete-tpl .footer .legal b { color: var(--ink); }
+    #membrete-tpl .footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    #membrete-tpl .footer li { color: var(--ink-soft); font-size: 10.5px; }
 
     /* ══════════ IMPRESIÓN NATIVA DE LA CERTIFICACIÓN (Guardar como PDF) ══════════ */
     /* Renderiza EXACTAMENTE como el preview porque usa el motor del navegador */
@@ -559,70 +518,46 @@
   <!-- ═══ EDITOR: CERTIFICACIÓN ═══ -->
   <div id="ed-membrete" style="display:none;">
 
-    <!-- Datos del caso -->
+    <!-- Destinatario y fecha -->
     <div class="section-card">
-      <div class="card-head"><span class="card-title">Datos del caso</span></div>
+      <div class="card-head"><span class="card-title">Destinatario y fecha</span></div>
       <div class="card-body">
-        <p class="field-hint">Estos datos identifican el certificado y arman el nombre del archivo PDF. El texto que aparece en la hoja se edita más abajo (texto libre).</p>
-        <label class="form-label">Destinatario (nombre completo)</label>
-        <input class="form-input" id="mRecipientName" placeholder="Ej: Juan Carlos Restrepo Gómez" oninput="syncMembreteAndSave()">
-        <label class="form-label">Cédula / Identificación</label>
-        <input class="form-input" id="mRecipientId" placeholder="Ej: 79.888.123" oninput="syncMembreteAndSave()">
-        <label class="form-label">Servicio prestado</label>
-        <input class="form-input" id="mServiceDesc" placeholder="Ej: Traslado ejecutivo aeropuerto – hotel" oninput="syncMembreteAndSave()">
         <div class="two-col">
           <div>
-            <label class="form-label">Periodo — desde</label>
-            <input class="form-input" id="mDateFrom" placeholder="12 de enero de 2026" oninput="syncMembreteAndSave()">
+            <label class="form-label">Ciudad (remitente)</label>
+            <input class="form-input" id="mCity" placeholder="Bogotá" oninput="syncMembreteAndSave()">
           </div>
           <div>
-            <label class="form-label">Periodo — hasta</label>
-            <input class="form-input" id="mDateTo" placeholder="18 de enero de 2026" oninput="syncMembreteAndSave()">
+            <label class="form-label">Fecha</label>
+            <input class="form-input" id="mDate" placeholder="1 de julio de 2026" oninput="syncMembreteAndSave()">
           </div>
         </div>
+        <label class="form-label">Empresa destinataria</label>
+        <input class="form-input" id="mRecipientCompany" placeholder="Ej: Accenture" oninput="syncMembreteAndSave()">
+        <label class="form-label">Atn. Sr(s).</label>
+        <input class="form-input" id="mRecipientAttn" placeholder="Ej: Mauricio Martínez y Diego Tibocha" oninput="syncMembreteAndSave()">
+        <label class="form-label">Ciudad del destinatario</label>
+        <input class="form-input" id="mRecipientCity" placeholder="Ciudad" oninput="syncMembreteAndSave()">
+        <label class="form-label">Saludo</label>
+        <input class="form-input" id="mGreeting" placeholder="Estimados Señores:" oninput="syncMembreteAndSave()">
+        <label class="form-label">Asunto</label>
+        <input class="form-input" id="mSubject" placeholder="Certificación" oninput="syncMembreteAndSave()">
       </div>
     </div>
 
-    <!-- Expedición y firma -->
+    <!-- Cuerpo y firma -->
     <div class="section-card">
-      <div class="card-head"><span class="card-title">Expedición y firma</span></div>
+      <div class="card-head"><span class="card-title">Cuerpo y firma</span></div>
       <div class="card-body">
-        <div class="two-col">
-          <div>
-            <label class="form-label">Ciudad</label>
-            <input class="form-input" id="mCity" placeholder="Bogotá D.C." oninput="syncMembreteAndSave()">
-          </div>
-          <div>
-            <label class="form-label">Fecha de expedición</label>
-            <input class="form-input" id="mIssueDate" placeholder="20 de enero de 2026" oninput="syncMembreteAndSave()">
-          </div>
-        </div>
+        <label class="form-label">Texto de la certificación</label>
+        <p class="field-hint">Cambia según lo que pida cada empresa (PESV, pólizas, SOAT, etc.).</p>
+        <textarea class="form-textarea" id="mBodyText" style="min-height:220px;" oninput="syncMembreteAndSave()"></textarea>
+        <label class="form-label">Cierre</label>
+        <input class="form-input" id="mClosing" placeholder="Cordialmente," oninput="syncMembreteAndSave()">
         <label class="form-label">Firmante</label>
         <input class="form-input" id="mSignerName" placeholder="Alfonso Montero" oninput="syncMembreteAndSave()">
         <label class="form-label">Cargo del firmante</label>
-        <input class="form-input" id="mSignerRole" placeholder="Representante Legal · AMF Executive Transportation" oninput="syncMembreteAndSave()">
-
-        <label class="form-label" style="margin-top:6px;">Firma digital (opcional)</label>
-        <p class="field-hint">Sube una foto de tu firma sobre fondo blanco, o un PNG con fondo transparente si la tienes digitalizada.</p>
-        <input class="form-input" type="file" id="mSignatureFile" accept="image/png,image/jpeg" onchange="onSignatureFile(event)" style="padding:6px;">
-        <div id="mSigStatus" style="display:flex; align-items:center; gap:10px; margin-top:6px;">
-          <img id="mSigThumb" alt="firma cargada" style="display:none; max-height:34px; background:#fff; border:1px solid var(--border); border-radius:4px; padding:2px;">
-          <button type="button" class="btn-rm" id="mSigRemove" onclick="removeSignature()" style="display:none; width:auto; padding:0 12px; font-size:11px;">Quitar firma</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Texto de la certificación -->
-    <div class="section-card">
-      <div class="card-head"><span class="card-title">Texto de la certificación</span></div>
-      <div class="card-body">
-        <p class="field-hint">Texto libre — reescríbelo como necesites para cada caso. Los saltos de línea se respetan.</p>
-        <label class="form-label">Párrafo 1 — Introducción</label>
-        <textarea class="form-textarea" id="mBodyIntro" oninput="syncMembreteAndSave()"></textarea>
-        <label class="form-label">Párrafo 2 — Detalle del servicio</label>
-        <textarea class="form-textarea" id="mBodyDetail" oninput="syncMembreteAndSave()"></textarea>
-        <label class="form-label">Párrafo 3 — Cierre</label>
-        <textarea class="form-textarea" id="mBodyClosing" oninput="syncMembreteAndSave()"></textarea>
+        <input class="form-input" id="mSignerRole" placeholder="Representante Legal" oninput="syncMembreteAndSave()">
       </div>
     </div>
 
@@ -706,30 +641,21 @@
         <!-- ══ MEMBRETE TEMPLATE ══ -->
         <div id="membrete-tpl">
 
-          <!-- HEADER -->
+          <!-- HEADER: solo logo -->
           <div class="header">
-            <img class="wave-svg" data-wave="header" alt="">
-            <div class="brand">
-              <div class="logo-badge"><img src="" data-logo="1" alt="AMF"></div>
-              <div>
-                <p class="name">Alfonso Montero</p>
-                <p class="sub">Executive Transportation</p>
-              </div>
-            </div>
+            <div class="logo-badge"><img src="" data-logo="1" alt="AMF"></div>
           </div>
-
-          <div class="route-line"></div>
 
           <!-- BODY -->
           <div class="body">
-            <p class="doc-title">Certificación de servicio</p>
-            <div class="doc-title-line"></div>
-            <p id="mb-intro"></p>
-            <p id="mb-detail"></p>
-            <p id="mb-closing"></p>
-            <p class="place-date" id="mb-placedate"></p>
+            <p class="date-line" id="mb-datecity"></p>
+            <p class="recipient" id="mb-recipient"></p>
+            <p class="greeting" id="mb-greeting"></p>
+            <p class="subject"><strong>Asunto:</strong> <span id="mb-subject"></span></p>
+            <p id="mb-body"></p>
+            <p class="closing" id="mb-closing"></p>
             <div class="signature">
-              <div class="sig-img-slot" id="mb-sigslot"></div>
+              <div class="sig-img-slot"><img id="mb-sigimg" alt="Firma"></div>
               <div class="line">
                 <p class="who"  id="mb-signer"></p>
                 <p class="role" id="mb-role"></p>
@@ -737,17 +663,14 @@
             </div>
           </div>
 
-          <!-- FOOTER -->
+          <!-- FOOTER: datos de contacto, sin color -->
           <div class="footer">
-            <img class="wave-svg" data-wave="footer" alt="">
-            <div class="contact">
-              <div class="legal"><b>Alfonso Montero</b> Executive Transportation<br>NIT 79.121.391-1</div>
-              <ul>
-                <li><span class="dot"></span> Bogotá – Colombia</li>
-                <li><span class="dot"></span> +57 321 995 6349</li>
-                <li><span class="dot"></span> alfonsomontero@gmail.com</li>
-              </ul>
-            </div>
+            <div class="legal"><b>Alfonso Montero</b> Executive Transportation<br>NIT 79.121.391-1</div>
+            <ul>
+              <li>Bogotá – Colombia</li>
+              <li>+57 321 995 6349</li>
+              <li>alfonsomontero@gmail.com</li>
+            </ul>
           </div>
 
         </div><!-- /membrete-tpl -->
@@ -765,33 +688,8 @@ function applyLogos() {
   document.querySelectorAll('img[data-logo]').forEach(img => img.src = LOGO);
 }
 
-/* ════════════ ONDAS (SVG como data-URI para que html2canvas las rasterice bien) ════════════ */
-function waveSvgDataURI(viewH, goldPath, paperPath, gradId) {
-  const svg =
-    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1300 " + viewH + "' preserveAspectRatio='none'>" +
-      "<defs><linearGradient id='" + gradId + "' x1='0' y1='0' x2='1' y2='0'>" +
-        "<stop offset='0%' stop-color='#C9A96E'/>" +
-        "<stop offset='55%' stop-color='#E8D5A3'/>" +
-        "<stop offset='100%' stop-color='#C9A96E'/>" +
-      "</linearGradient></defs>" +
-      "<path fill='url(#" + gradId + ")' d='" + goldPath + "'/>" +
-      "<path fill='#FDFDFB' d='" + paperPath + "'/>" +
-    "</svg>";
-  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-}
-
-function applyWaves() {
-  const header = document.querySelector('#membrete-tpl img[data-wave="header"]');
-  const footer = document.querySelector('#membrete-tpl img[data-wave="footer"]');
-  if (header) header.src = waveSvgDataURI(110,
-    'M0,20 C 260,130 620,-30 1000,60 C 1120,88 1180,55 1300,50 L1300,110 L0,110 Z',
-    'M0,59 C 280,121 640,31 1000,81 C 1120,97 1180,81 1300,77 L1300,110 L0,110 Z',
-    'gHead');
-  if (footer) footer.src = waveSvgDataURI(95,
-    'M0,10 C 260,-30 620,110 1000,20 C 1120,-8 1180,26 1300,32 L1300,0 L0,0 Z',
-    'M0,4 C 280,-24 640,54 1000,4 C 1120,-10 1180,8 1300,12 L1300,0 L0,0 Z',
-    'gFoot');
-}
+/* ════════════ FIRMA FIJA (embebida, ya provista por el cliente) ════════════ */
+const SIGNATURE = "data:image/png;base64,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";
 
 /* ════════════ DEFAULTS ════════════ */
 const DEFAULTS = {
@@ -1141,19 +1039,17 @@ let m = {};
 let currentTab = 'tarifas';
 
 const MEMBRETE_DEFAULT = {
-  recipientName: 'Juan Carlos Restrepo Gómez',
-  recipientId:   '79.888.123',
-  serviceDesc:   'Traslado ejecutivo aeropuerto – hotel',
-  dateFrom:      '12 de enero de 2026',
-  dateTo:        '18 de enero de 2026',
-  city:          'Bogotá D.C.',
-  issueDate:     '20 de enero de 2026',
-  signerName:    'Alfonso Montero',
-  signerRole:    'Representante Legal · AMF Executive Transportation',
-  bodyIntro:     'Por medio de la presente, ALFONSO MONTERO EXECUTIVE TRANSPORTATION, identificada con NIT 79.121.391-1, certifica que el señor JUAN CARLOS RESTREPO GÓMEZ, identificado con cédula de ciudadanía No. 79.888.123, contrató y recibió nuestros servicios de traslado ejecutivo aeropuerto – hotel en la ciudad de Bogotá D.C., durante el periodo comprendido entre el 12 y el 18 de enero de 2026.',
-  bodyDetail:    'El servicio prestado incluyó transporte terrestre privado tipo ejecutivo, conductor bilingüe y asistencia personalizada en el Aeropuerto Internacional El Dorado, cumpliendo con los estándares de puntualidad, seguridad y confidencialidad que caracterizan a nuestra compañía.',
-  bodyClosing:   'Se expide la presente certificación a solicitud del interesado, para los fines que este considere pertinentes.',
-  signatureImg:  null,
+  city:             'Bogotá',
+  date:             '1 de julio de 2026',
+  recipientCompany: 'Accenture',
+  recipientAttn:    'Mauricio Martínez y Diego Tibocha',
+  recipientCity:    'Ciudad',
+  greeting:         'Estimados Señores:',
+  subject:          'Certificación',
+  bodyText:         'De acuerdo a su solicitud, por medio de la presente, yo Alfonso Montero Fajardo en calidad de representante legal me permito certificar que la empresa se encuentra cubierta bajo Plan Estratégico de Seguridad Vial (PESV); que los conductores cuentan con licencias de conducción vigentes; de igual forma se cumple con la capacitación en materia de riesgo vial; que los vehículos cuentan con SOAT, revisión técnico-mecánica y pólizas de seguro de responsabilidad civil extracontractual (RCE) y contractual (RCC) vigentes; que existe un plan de mantenimiento preventivo y correctivo; que se cuenta con evidencia de inspecciones preoperacionales. La información aquí certificada es válida a la fecha de expedición y se actualizará y remitirá de manera trimestral, conforme a lo solicitado.',
+  closing:          'Cordialmente,',
+  signerName:       'Alfonso Montero',
+  signerRole:       'Representante Legal',
 };
 
 function initMembrete() {
@@ -1164,100 +1060,56 @@ function initMembrete() {
 
 function renderMembrete() {
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.value = v || ''; };
-  set('mRecipientName', m.recipientName);
-  set('mRecipientId',   m.recipientId);
-  set('mServiceDesc',   m.serviceDesc);
-  set('mDateFrom',      m.dateFrom);
-  set('mDateTo',        m.dateTo);
-  set('mCity',          m.city);
-  set('mIssueDate',     m.issueDate);
-  set('mSignerName',    m.signerName);
-  set('mSignerRole',    m.signerRole);
-  set('mBodyIntro',     m.bodyIntro);
-  set('mBodyDetail',    m.bodyDetail);
-  set('mBodyClosing',   m.bodyClosing);
-  updateSignatureUI();
+  set('mCity',             m.city);
+  set('mDate',              m.date);
+  set('mRecipientCompany', m.recipientCompany);
+  set('mRecipientAttn',    m.recipientAttn);
+  set('mRecipientCity',    m.recipientCity);
+  set('mGreeting',         m.greeting);
+  set('mSubject',          m.subject);
+  set('mBodyText',         m.bodyText);
+  set('mClosing',          m.closing);
+  set('mSignerName',       m.signerName);
+  set('mSignerRole',       m.signerRole);
   syncMembretePreview();
-}
-
-/* Refleja en el editor si hay firma cargada (miniatura + botón quitar) */
-function updateSignatureUI() {
-  const thumb = document.getElementById('mSigThumb');
-  const rm    = document.getElementById('mSigRemove');
-  if (m.signatureImg) {
-    thumb.src = m.signatureImg; thumb.style.display = 'inline-block';
-    rm.style.display = 'inline-block';
-  } else {
-    thumb.removeAttribute('src'); thumb.style.display = 'none';
-    rm.style.display = 'none';
-  }
 }
 
 function syncMembreteAndSave() {
   const val = id => { const e = document.getElementById(id); return e ? e.value : ''; };
-  m.recipientName = val('mRecipientName');
-  m.recipientId   = val('mRecipientId');
-  m.serviceDesc   = val('mServiceDesc');
-  m.dateFrom      = val('mDateFrom');
-  m.dateTo        = val('mDateTo');
-  m.city          = val('mCity');
-  m.issueDate     = val('mIssueDate');
-  m.signerName    = val('mSignerName');
-  m.signerRole    = val('mSignerRole');
-  m.bodyIntro     = val('mBodyIntro');
-  m.bodyDetail    = val('mBodyDetail');
-  m.bodyClosing   = val('mBodyClosing');
+  m.city             = val('mCity');
+  m.date             = val('mDate');
+  m.recipientCompany = val('mRecipientCompany');
+  m.recipientAttn    = val('mRecipientAttn');
+  m.recipientCity    = val('mRecipientCity');
+  m.greeting         = val('mGreeting');
+  m.subject          = val('mSubject');
+  m.bodyText         = val('mBodyText');
+  m.closing          = val('mClosing');
+  m.signerName       = val('mSignerName');
+  m.signerRole       = val('mSignerRole');
   syncMembretePreview();
   saveMembrete();
 }
 
 function syncMembretePreview() {
-  setText('mb-intro',   m.bodyIntro   || '');
-  setText('mb-detail',  m.bodyDetail  || '');
-  setText('mb-closing', m.bodyClosing || '');
-  const city = (m.city || '').trim();
-  const dt   = (m.issueDate || '').trim();
-  let placeDate = '';
-  if (city || dt) placeDate = `${city}${city && dt ? ', ' : ''}${dt}${dt ? '.' : ''}`;
-  setText('mb-placedate', placeDate);
-  setText('mb-signer', m.signerName || '');
-  setText('mb-role',   m.signerRole || '');
-
-  // Firma: si hay imagen la mostramos sobre la línea; si no, slot en blanco para firmar a mano
-  const slot = document.getElementById('mb-sigslot');
-  if (slot) {
-    slot.innerHTML = '';
-    if (m.signatureImg) {
-      const img = document.createElement('img');
-      img.src = m.signatureImg;
-      img.alt = 'Firma';
-      img.style.cssText = 'max-height:56px;object-fit:contain;';
-      slot.appendChild(img);
-    }
+  setText('mb-datecity', `${m.city || ''}, ${m.date || ''}`);
+  const recipient = document.getElementById('mb-recipient');
+  if (recipient) {
+    recipient.innerHTML =
+      'Señores<br>' +
+      `<strong>${esc(m.recipientCompany || '')}</strong><br>` +
+      `Atn. Sr(s). ${esc(m.recipientAttn || '')}<br>` +
+      esc(m.recipientCity || '');
   }
-}
+  setText('mb-greeting', m.greeting || '');
+  setText('mb-subject',  m.subject  || '');
+  setText('mb-body',     m.bodyText || '');
+  setText('mb-closing',  m.closing  || '');
+  setText('mb-signer',   m.signerName || '');
+  setText('mb-role',     m.signerRole || '');
 
-/* ── Firma digital ── */
-function onSignatureFile(ev) {
-  const file = ev.target.files && ev.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    m.signatureImg = e.target.result;
-    updateSignatureUI();
-    syncMembretePreview();
-    saveMembrete();
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeSignature() {
-  m.signatureImg = null;
-  const inp = document.getElementById('mSignatureFile');
-  if (inp) inp.value = '';
-  updateSignatureUI();
-  syncMembretePreview();
-  saveMembrete();
+  const sig = document.getElementById('mb-sigimg');
+  if (sig) sig.src = SIGNATURE;
 }
 
 let saveTimerM;
@@ -1366,7 +1218,7 @@ async function downloadMembretePDF() {
     pdf.rect(0, 0, 210, 297, 'F');
     pdf.addImage(img, 'JPEG', 0, 0, 210, 297);
 
-    const recip = (m.recipientName || 'destinatario').trim().replace(/\s+/g, '_');
+    const recip = (m.recipientCompany || 'empresa').trim().replace(/\s+/g, '_');
     const fecha = new Date().toISOString().slice(0, 10);
     pdf.save(`Certificacion_AMF_${recip}_${fecha}.pdf`);
   } catch (err) {
@@ -1385,7 +1237,6 @@ function esc(s) {
 
 /* ════════════ START ════════════ */
 applyLogos();
-applyWaves();
 init();
 initMembrete();
 </script>
