@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>AMF — Hoja Membretada combinada (documento base)</title>
+<style>
+  :root{
+    --bg-dark:   #0D0D0D;
+    --gold:      #C9A96E;
+    --gold-light:#E8D5A3;
+    --paper:     #FDFDFB;
+    --ink:       #1A1A1A;
+    --ink-soft:  #6B6B6B;
+    --on-dark:   #F0F0F0;
+    --line:      #D9D9D9;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    padding:40px;
+    background:#3a3a3a;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* ===== Hoja A4 ===== */
+  .sheet{
+    width:210mm;
+    min-height:297mm;
+    background:var(--paper);
+    position:relative;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ============================================================
+     HEADER — solo el logo, SIN franjas negras/doradas (fondo blanco)
+     ============================================================ */
+  .header{
+    padding:40px 50px 24px;
+    border-bottom:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .logo-badge{
+    width:76px; height:76px;
+    border-radius:10px;
+    background:radial-gradient(circle at 35% 30%, #2a2a2a, #0D0D0D 70%);
+    border:2px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold-light);
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:1px;
+    box-shadow:0 0 0 4px rgba(201,169,110,.15);
+    /* Reemplazar el contenido "AM" por <img> con el logo real del proyecto */
+  }
+
+  /* ===== Cuerpo ===== */
+  .body{
+    flex:1;
+    padding:48px 90px 40px 50px;
+  }
+  .date-line{
+    color:var(--ink);
+    font-size:12.5px;
+    margin:0 0 30px;
+  }
+  .recipient{
+    color:var(--ink);
+    font-size:12.5px;
+    line-height:1.6;
+    margin:0 0 22px;
+  }
+  .subject{
+    color:var(--ink);
+    font-size:12.5px;
+    margin:0 0 18px;
+  }
+  .greeting{
+    color:var(--ink);
+    font-size:12.5px;
+    margin:0 0 18px;
+  }
+  .body p{
+    color:var(--ink);
+    font-size:12.5px;
+    line-height:1.85;
+    text-align:left;
+    margin:0 0 18px;
+  }
+  .body strong{ color:var(--ink); }
+  .closing{
+    color:var(--ink);
+    font-size:12.5px;
+    margin:0;
+  }
+
+  /* ===== Firma ya establecida (fija, no se sube) ===== */
+  .signature{
+    margin-top:70px;
+    max-width:260px;
+  }
+  .sig-img-slot{
+    height:56px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    /* aquí va el <img> de la firma fija ya provista por el cliente,
+       ej: <img src="firma-amf.png" style="max-height:100%"> */
+  }
+  .signature .line{
+    border-top:1px solid var(--ink);
+    padding-top:8px;
+  }
+  .signature .who{
+    font-size:12px; font-weight:700; color:var(--ink); margin:0;
+  }
+  .signature .role{
+    font-size:10.5px; color:var(--ink-soft); margin:2px 0 0;
+  }
+
+  /* ============================================================
+     FOOTER — tal cual hoja-membretada-AMF.html (franja dorada + negra)
+     ============================================================ */
+  .footer{
+    position:relative;
+    height:150px;
+    background:var(--bg-dark);
+    flex-shrink:0;
+    overflow:hidden; /* la onda queda SIEMPRE contenida dentro del footer,
+                         nunca puede pisar el texto del cuerpo */
+  }
+  .footer .wave-svg{
+    position:absolute;
+    left:0; right:0; top:-1px;
+    width:100%; height:95px;
+    display:block;
+  }
+  .contact{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 50px 24px;
+  }
+  .contact .legal{
+    color:var(--gold-light);
+    font-size:10px;
+    letter-spacing:1px;
+  }
+  .contact .legal b{ color:var(--on-dark); }
+
+  .contact ul{
+    list-style:none; margin:0; padding:0;
+    display:flex; flex-direction:column; gap:5px;
+  }
+  .contact li{
+    color:var(--on-dark);
+    font-size:10.5px;
+    display:flex; align-items:center; gap:8px;
+    white-space:nowrap;
+  }
+  .contact li .dot{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--gold);
+    flex-shrink:0;
+  }
+
+  /* marca de agua sutil "EJEMPLO" solo para este archivo base */
+  .example-tag{
+    position:fixed; top:16px; left:50%; transform:translateX(-50%);
+    background:#000; color:#E8D5A3; font-family:sans-serif;
+    font-size:11px; letter-spacing:2px; padding:6px 14px; border-radius:4px;
+    z-index:99;
+  }
+
+  @media print{
+    body{ padding:0; background:none; }
+    .sheet{ box-shadow:none; }
+    .example-tag{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="example-tag">DOCUMENTO BASE — TEXTO DE EJEMPLO</div>
+
+  <div class="sheet">
+
+    <!-- ===== HEADER: solo logo, sin franjas ===== -->
+    <div class="header">
+      <div class="logo-badge">AM</div>
+    </div>
+
+    <!-- ===== BODY: Asunto antes que el saludo ===== -->
+    <div class="body">
+      <p class="date-line">Bogotá, 1 de julio de 2026</p>
+
+      <p class="subject"><strong>Asunto:</strong> Certificación</p>
+
+      <p class="recipient">
+        Señores<br>
+        <strong>Accenture</strong><br>
+        Atn. Sr(s). Mauricio Martínez y Diego Tibocha<br>
+        Ciudad
+      </p>
+
+      <p class="greeting">Estimados Señores:</p>
+
+      <p>
+        De acuerdo a su solicitud, por medio de la presente, yo Alfonso Montero
+        Fajardo en calidad de representante legal me permito certificar que la
+        empresa se encuentra cubierta bajo Plan Estratégico de Seguridad Vial
+        (PESV); que los conductores cuentan con licencias de conducción vigentes;
+        de igual forma se cumple con la capacitación en materia de riesgo vial;
+        que los vehículos cuentan con SOAT, revisión técnico-mecánica y pólizas
+        de seguro de responsabilidad civil extracontractual (RCE) y contractual
+        (RCC) vigentes; que existe un plan de mantenimiento preventivo y
+        correctivo; que se cuenta con evidencia de inspecciones preoperacionales.
+        La información aquí certificada es válida a la fecha de expedición y se
+        actualizará y remitirá de manera trimestral, conforme a lo solicitado.
+      </p>
+
+      <p class="closing">Cordialmente,</p>
+
+      <div class="signature">
+        <div class="sig-img-slot"><!-- firma fija ya provista --></div>
+        <div class="line">
+          <p class="who">Alfonso Montero</p>
+          <p class="role">Representante Legal</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER: igual a hoja-membretada-AMF.html ===== -->
+    <div class="footer">
+      <svg class="wave-svg" viewBox="0 0 1300 95" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="goldGradFooter" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#C9A96E"/>
+            <stop offset="55%" stop-color="#E8D5A3"/>
+            <stop offset="100%" stop-color="#C9A96E"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#goldGradFooter)"
+          d="M0,10 C260,-30 620,110 1000,20 C1120,-8 1180,26 1300,32 L1300,0 L0,0 Z"/>
+        <path fill="#FDFDFB"
+          d="M0,4 C280,-24 640,54 1000,4 C1120,-10 1180,8 1300,12 L1300,0 L0,0 Z"/>
+      </svg>
+      <div class="contact">
+        <div class="legal">
+          <b>Alfonso Montero</b> Executive Transportation<br>
+          NIT 79.121.391-1
+        </div>
+        <ul>
+          <li><span class="dot"></span> Bogotá – Colombia</li>
+          <li><span class="dot"></span> +57 321 995 6349</li>
+          <li><span class="dot"></span> alfonsomontero@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

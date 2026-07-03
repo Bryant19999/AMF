@@ -323,54 +323,112 @@
     /* ══════════ MEMBRETE / CERTIFICACIÓN (hoja A4, carta formal blanca) ══════════ */
     #membrete-tpl {
       width: 210mm; min-height: 297mm;
-      background: #FFFFFF;
-      position: relative; overflow: hidden;
+      background: var(--paper);
+      position: relative;
       display: flex; flex-direction: column;
-      box-shadow: 0 4px 48px rgba(0,0,0,.9);
+      box-shadow: 0 10px 40px rgba(0,0,0,.5);
       flex-shrink: 0;
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
-    /* Cabecera — solo logo, línea gris de separación */
+    /* Header: fondo blanco, borde gris inferior, solo logo */
     #membrete-tpl .header {
-      padding: 40px 50px 24px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+      padding: 40px 50px 24px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
     }
     #membrete-tpl .logo-badge {
-      width: 70px; height: 70px;
+      width: 76px; height: 76px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 35% 30%, #2a2a2a, #0D0D0D 70%);
+      border: 2px solid var(--gold);
       display: flex; align-items: center; justify-content: center;
+      color: var(--gold3);
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 0 0 4px rgba(201,169,110,.15);
       overflow: hidden;
     }
     #membrete-tpl .logo-badge img { width: auto; height: 100%; object-fit: cover; }
-    /* Cuerpo — carta formal */
+    /* Cuerpo: texto alineado a izquierda (NO justificado) */
     #membrete-tpl .body {
-      flex: 1; padding: 48px 90px 40px 50px;
+      flex: 1;
+      padding: 48px 90px 40px 50px;
     }
     #membrete-tpl .date-line  { color: var(--ink); font-size: 12.5px; margin: 0 0 30px; }
+    #membrete-tpl .subject    { color: var(--ink); font-size: 12.5px; margin: 0 0 18px; }
     #membrete-tpl .recipient  { color: var(--ink); font-size: 12.5px; line-height: 1.6; margin: 0 0 22px; }
     #membrete-tpl .greeting   { color: var(--ink); font-size: 12.5px; margin: 0 0 18px; }
-    #membrete-tpl .subject    { color: var(--ink); font-size: 12.5px; margin: 0 0 18px; }
-    #membrete-tpl .closing    { color: var(--ink); font-size: 12.5px; margin: 0; }
     #membrete-tpl .body p {
       color: var(--ink); font-size: 12.5px; line-height: 1.85;
-      text-align: left; margin: 0 0 18px; white-space: pre-wrap;
+      text-align: left; margin: 0 0 18px;
     }
-    #membrete-tpl .signature  { margin-top: 70px; max-width: 260px; }
-    #membrete-tpl .sig-img-slot { height: 56px; display: flex; align-items: flex-end; justify-content: center; }
+    #membrete-tpl .closing    { color: var(--ink); font-size: 12.5px; margin: 0; }
+    /* Firma: imagen fija + línea + nombre + cargo */
+    #membrete-tpl .signature {
+      margin-top: 70px;
+      max-width: 260px;
+    }
+    #membrete-tpl .sig-img-slot {
+      height: 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
     #membrete-tpl .sig-img-slot img { max-height: 100%; object-fit: contain; }
-    #membrete-tpl .signature .line { border-top: 1px solid var(--ink); padding-top: 8px; }
+    #membrete-tpl .signature .line {
+      border-top: 1px solid var(--ink);
+      padding-top: 8px;
+    }
     #membrete-tpl .signature .who  { font-size: 12px; font-weight: 700; color: var(--ink); margin: 0; }
     #membrete-tpl .signature .role { font-size: 10.5px; color: var(--ink-soft); margin: 2px 0 0; }
-    /* Pie — datos de contacto, sin color, línea gris arriba */
+    /* Footer: franja dorada/negra con onda SVG + datos de contacto */
     #membrete-tpl .footer {
-      border-top: 1px solid var(--line); padding: 20px 50px;
-      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+      position: relative;
+      height: 150px;
+      background: var(--dark-bg);
+      flex-shrink: 0;
+      overflow: hidden;
     }
-    #membrete-tpl .footer .legal { color: var(--ink); font-size: 10px; line-height: 1.5; }
-    #membrete-tpl .footer .legal b { color: var(--ink); }
-    #membrete-tpl .footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-    #membrete-tpl .footer li { color: var(--ink-soft); font-size: 10.5px; }
+    #membrete-tpl .footer .wave-svg {
+      position: absolute;
+      left: 0; right: 0; top: -1px;
+      width: 100%; height: 95px;
+      display: block;
+    }
+    #membrete-tpl .contact {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 50px 24px;
+    }
+    #membrete-tpl .footer .legal {
+      color: var(--gold3);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+    #membrete-tpl .footer .legal b { color: var(--white); }
+    #membrete-tpl .footer ul {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    #membrete-tpl .footer li {
+      color: var(--white);
+      font-size: 10.5px;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    #membrete-tpl .footer li .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
 
     /* ══════════ IMPRESIÓN NATIVA DE LA CERTIFICACIÓN (Guardar como PDF) ══════════ */
     /* Renderiza EXACTAMENTE como el preview porque usa el motor del navegador */
@@ -641,17 +699,17 @@
         <!-- ══ MEMBRETE TEMPLATE ══ -->
         <div id="membrete-tpl">
 
-          <!-- HEADER: solo logo -->
+          <!-- HEADER: solo logo blanco, sin franjas negras/doradas -->
           <div class="header">
             <div class="logo-badge"><img src="" data-logo="1" alt="AMF"></div>
           </div>
 
-          <!-- BODY -->
+          <!-- BODY: orden correcto →  date → subject → recipient → greeting → body → closing → signature -->
           <div class="body">
             <p class="date-line" id="mb-datecity"></p>
+            <p class="subject"><strong>Asunto:</strong> <span id="mb-subject"></span></p>
             <p class="recipient" id="mb-recipient"></p>
             <p class="greeting" id="mb-greeting"></p>
-            <p class="subject"><strong>Asunto:</strong> <span id="mb-subject"></span></p>
             <p id="mb-body"></p>
             <p class="closing" id="mb-closing"></p>
             <div class="signature">
@@ -663,14 +721,32 @@
             </div>
           </div>
 
-          <!-- FOOTER: datos de contacto, sin color -->
+          <!-- FOOTER: franja dorada/negra con onda SVG, datos de contacto + bullets dorados -->
           <div class="footer">
-            <div class="legal"><b>Alfonso Montero</b> Executive Transportation<br>NIT 79.121.391-1</div>
-            <ul>
-              <li>Bogotá – Colombia</li>
-              <li>+57 321 995 6349</li>
-              <li>alfonsomontero@gmail.com</li>
-            </ul>
+            <svg class="wave-svg" viewBox="0 0 1300 95" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="goldGradFooter" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#C9A96E"/>
+                  <stop offset="55%" stop-color="#E8D5A3"/>
+                  <stop offset="100%" stop-color="#C9A96E"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#goldGradFooter)"
+                d="M0,10 C260,-30 620,110 1000,20 C1120,-8 1180,26 1300,32 L1300,0 L0,0 Z"/>
+              <path fill="#FDFDFB"
+                d="M0,4 C280,-24 640,54 1000,4 C1120,-10 1180,8 1300,12 L1300,0 L0,0 Z"/>
+            </svg>
+            <div class="contact">
+              <div class="legal">
+                <b>Alfonso Montero</b> Executive Transportation<br>
+                NIT 79.121.391-1
+              </div>
+              <ul>
+                <li><span class="dot"></span> Bogotá – Colombia</li>
+                <li><span class="dot"></span> +57 321 995 6349</li>
+                <li><span class="dot"></span> alfonsomontero@gmail.com</li>
+              </ul>
+            </div>
           </div>
 
         </div><!-- /membrete-tpl -->
